@@ -2,6 +2,7 @@
 % Liutkus
 % EDIf-25/1
 % 2026-09-14
+%% Pagrindine dalis
 
 x = 1:32; 
 y = x.^2;
@@ -29,6 +30,22 @@ doc size
 %%
 help max
 doc max
+%% Papildoma dalis
+
+N = 4;
+
+v = N+1:0.5:N+4;
+
+A = reshape(N:N+8, 3, 3)';
+A
 %%
 
+a = A(3, 2)
 
+b = A(2:3, 1:2)
+
+c = A([1 3], [1 3])
+%%
+
+v_new = v(1:3);
+A_su_v = [A; v_new]
