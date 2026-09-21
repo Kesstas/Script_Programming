@@ -2,11 +2,10 @@
 % Liutkus
 % EDIf-25/1
 % 2026-09-14
-
 %% Pagrindine dalis
 
 x = 1:32; 
-y = x.^2;
+y = x.^2;0
 
 plot(x, y, 'o-r', x, y/3, 'xb')
 title('Dvi funkcijos')
