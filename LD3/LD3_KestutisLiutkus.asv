@@ -1,0 +1,137 @@
+% Kęstutis
+% Liutkus
+% EDIf-25/1
+% 2026-09-28
+% 4 var
+
+%% 1.
+% a)
+zingsnis = 0.1;
+x  = -pi:zingsnis:pi;
+f1 = tan(sin(x)) + sin(tan(x));        
+
+fig1 = figure(1);
+p1 = plot(x, f1, 'y', 'LineWidth', 2); 
+
+% b) 
+f2 = exp(-0.5 * x);
+f3 = sin(x);
+
+fig2 = figure(2);
+[ax, h1, h2] = plotyy(x, f2, x, f3, 'semilogy', 'plot');
+set([h1 h2], 'LineWidth', 1.5);
+
+% c)
+figure(fig1);
+grid on;
+axis([min(x) max(x) min(f1) max(f1)]); 
+title('f(x) = tan(sin(x)) + sin(tan(x))');
+xlabel('x');
+ylabel('f(x)');
+legend(p1, 'f(x) = tan(sin(x)) + sin(tan(x))', 'Location', 'southoutside');
+
+figure(fig2);
+grid(ax(1), 'on');
+xlim(ax(1), [min(x) max(x)]);
+xlim(ax(2), [min(x) max(x)]);
+title(ax(1), 'e^(-0.5x) ir sin(x)');
+xlabel(ax(1), 'x');
+ylabel(ax(1), 'f(x) = e^(-0.5x)');
+ylabel(ax(2), 'f(x) = sin(x)');
+legend([h1; h2], {'f(x) = e^(-0.5x)', 'f(x) = sin(x)'}, 'Location', 'southoutside');
+
+%% 2.
+N = 6;                 
+M = 4;                 
+A = rand(N, M);        
+
+figure(3);
+
+% a)
+subplot(2, 1, 1);
+area(A);
+grid on;
+xlim([1 N]);
+title('Ploto diagrama (area)');
+xlabel('Eilutės numeris');
+ylabel('Sukauptoji reikšmė');
+legendos = arrayfun(@(k) sprintf('%d stulpelis', k), 1:M, 'UniformOutput', false);
+legend(legendos, 'Location', 'eastoutside');
+
+% b) 
+subplot(2, 1, 2);
+mesh(A);
+title('Matricos paviršiaus diagrama');
+xlabel('Stulpelio numeris (M)');
+ylabel('Eilutės numeris (N)');
+zlabel('Reikšmė');
+
+%%
+clear; clc; close all;
+
+A     = 7;      
+f     = 4;      
+sigma = 2;      
+U1    = 4.5;    
+U2    = 2.5;    
+t     = 0:0.005:1;
+
+s  = A * sin(2*pi*f*t);
+n  = sigma * randn(size(t));
+sn = s + n;                          
+
+sn_filt = sn;                        
+sn_filt(abs(sn_filt) < U2) = 0;
+
+kauke   = sn > U1;                   
+t_virs  = t(kauke);
+virs_U1 = sn(kauke);
+
+
+i_max = virs_U1 == max(virs_U1);
+i_min = virs_U1 == min(virs_U1);
+
+
+violetine   = [0.49 0.18 0.56];
+asiu_spalva = 'b';
+asiu_srift  = 12;
+
+%% a) 
+subplot(2, 1, 1);                    
+hold on;
+plot(t, sn,      'b-.', 'LineWidth', 1);      
+plot(t, sn_filt, 'y-',  'LineWidth', 1.5);    
+yline(U1,  'g', 'LineWidth', 1.5);            
+yline(U2,  'k--');
+yline(-U2, 'k--');
+hold off;
+grid on;
+xlim([min(t) max(t)]);
+ylim([min(sn) - 1, max(sn) + 1]);
+title('Pradinis ir filtruotas signalai');
+xlabel('Laikas t, s',     'Color', asiu_spalva, 'FontSize', asiu_srift);
+ylabel('Įtampa U, V',     'Color', asiu_spalva, 'FontSize', asiu_srift);
+legend('Pradinis signalas', 'Filtruotas signalas', ...
+       sprintf('U_1 = %.1f V', U1), sprintf('U_2 = %.1f V', U2), ...
+       sprintf('-U_2 = %.1f V', -U2), 'Location', 'eastoutside');
+
+%% b)
+subplot(2, 1, 2);
+hold on;
+stem(t_virs, virs_U1, 'b');
+plot(t_virs(i_max), virs_U1(i_max), 'o', 'Color', 'r', ...
+     'MarkerFaceColor', 'r', 'MarkerSize', 8);                 
+plot(t_virs(i_min), virs_U1(i_min), '^', 'Color', violetine, ...
+     'MarkerFaceColor', violetine, 'MarkerSize', 8);           
+yline(U1, 'g', 'LineWidth', 1.5);
+hold off;
+grid on;
+xlim([min(t) max(t)]);
+ylim([0, max(virs_U1) + 1]);
+title(sprintf('b) Pradinio signalo reikšmės, viršijančios U_1 = %.1f V', U1));
+xlabel('Laikas t, s',     'Color', asiu_spalva, 'FontSize', asiu_srift);
+ylabel('Įtampa U, V',     'Color', asiu_spalva, 'FontSize', asiu_srift);
+legend('Reikšmės > U_1', ...
+       sprintf('Maksimali: %.2f V', max(virs_U1)), ...
+       sprintf('Minimali: %.2f V', min(virs_U1)), ...
+       sprintf('U_1 = %.1f V', U1), 'Location', 'eastoutside');
