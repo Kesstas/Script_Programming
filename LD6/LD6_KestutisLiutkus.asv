@@ -1,0 +1,71 @@
+% Kęstutis
+% Liutkus
+% EDIf-25/1
+% 2026-10-12
+% 4 var
+clear; clc; close all;
+
+%% Pagrindine dalis
+% 1
+
+function kauliukaiX(X)
+
+if nargin < 1
+    error('Nurodykite kauliuku kieki X, pvz.: kauliukaiX(5)');
+end
+
+if X < 1 || X ~= round(X)
+    error('X turi buti sveikas teigiamas skaicius.');
+end
+
+metimai = randi(6, 1, X);   % X atsitiktiniu skaiciu is [1, 6] eiluteje
+
+disp(['Iskrite skaiciai (' num2str(X) ' kauliukai):']);
+disp(metimai);
+end
+
+%% 2
+
+% SKRIPTAS_GLOBALUS - 6 LD, 4 variantas, 2 uzduotis
+% Duomenys tarp skripto ir funkciju perduodami TIK per globalius kintamuosius.
+
+clc;
+clear global;          % isvalomi ankstesni globalus kintamieji
+
+global x y_kv y_puse   % globalus kintamieji
+
+x = 0:0.1:20;          % x vektorius nuo 0 iki 20 su zingsniu 0,1
+
+kvadratu               % 1 funkcija: y_kv = x^2
+puse                   % 2 funkcija: y_puse = y_kv * 1/2
+
+% Grafikas: bruksnine-taskine linija, melyna, su apskritais markeriais
+plot(x, y_puse, '-.bo');
+grid on;
+xlabel('x');
+ylabel('y');
+title('y = x^2 \cdot 1/2');
+
+% Parodome, kad sukurti globalus kintamieji
+whos global
+
+%%
+function kvadratu
+%KVADRATU Apskaiciuoja y = x^2.
+%   Ieities/isejimo kintamuju nera - naudojami globalus
+%   kintamieji x (ivestis) ir y_kv (rezultatas).
+
+global x y_kv
+
+y_kv = x.^2;
+end
+
+function puse
+%PUSE Apskaiciuoja y * 1/2.
+%   Ieities/isejimo kintamuju nera - naudojami globalus
+%   kintamieji y_kv (ivestis) ir y_puse (rezultatas, grazinamas skriptui).
+
+global y_kv y_puse
+
+y_puse = y_kv * 1/2;
+end
