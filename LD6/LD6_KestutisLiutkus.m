@@ -31,7 +31,18 @@ title('y = x^2 \cdot 1/2');
 
 whos global
 
+%% Papildoma dalis
 
+help grafsincos
 
+x = 0:0.1:2*pi;
 
+grafsincos(x)         
 
+SC = grafsincos(x);   
+size(SC)
+SC(:, 1:10)
+
+[s, c] = grafsincos(x);
+s(1:5)
+c(1:5)
